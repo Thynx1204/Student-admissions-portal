@@ -34,7 +34,6 @@ Program.hasMany(CourseProgram, { foreignKey: 'program_id' });
 CourseProgram.belongsTo(Program, { foreignKey: 'program_id' });
 
 module.exports = {
-  User,
   Student,
   University,
   Admission,

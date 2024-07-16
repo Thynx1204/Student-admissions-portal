@@ -11,6 +11,7 @@ const Student = sequelize.define('Student', {
   first_name:  { type: DataTypes.STRING, allowNull: false },
   address:  { type: DataTypes.STRING, allowNull: false },
   email:  { type: DataTypes.STRING, allowNull: false, unique: true },
+  password: { type: DataTypes.STRING,allowNull: false},
   phone_number:  { type: DataTypes.INTEGER, allowNull: false, unique: true },
   sex:  { type: DataTypes.STRING, allowNull: false },
   nationality:  { type: DataTypes.STRING, allowNull: false },
