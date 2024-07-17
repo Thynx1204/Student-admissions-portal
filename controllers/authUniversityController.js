@@ -2,8 +2,8 @@ const  { universityRegister, universityLogin, updateUniversity, deleteUniversity
 
 const registerUniversity = async (req, res) => {
   try {
-    const  {name, location, description, logo, phone_number, email, password} = req.body;
-    const university = await universityRegister({name, location, description, logo, phone_number, email, password});
+    const  {name, location, description, logo, phone_number, user_id} = req.body;
+    const university = await universityRegister({name, location, description, logo, phone_number, user_id});
     res.status(201).send(university);
   } catch (error) {
     res.status(400).send(error.message);

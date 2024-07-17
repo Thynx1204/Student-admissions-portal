@@ -4,14 +4,34 @@ const bcrypt = require('bcryptjs');
 const Student = require('../models/Student');
 
 const studentRegister = async (userdata) => {
-  const {last_name, first_name, address, phone_number, sex, nationality, birthdate, email, password} = userdata
+  const { last_name, first_name, address, phone_number, sex, nationality, birthdate, user_id } = userdata;
+  console.log(userdata)
+  
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const student = await Student.create({ last_name, first_name, address, phone_number, sex, nationality, birthdate, email, password: hashedPassword});
-    console.log(student)
-    return student;
+
+    const user = await User.findOne({ where: { id : user_id } });
+    console.log(user)
+    
+    if (user && user.dataValues.role === 'student') {
+
+      const student = await Student.create({
+        last_name,
+        first_name,
+        address,
+        phone_number,
+        sex,
+        nationality,
+        birthdate,
+        user_id
+      });
+
+      console.log(student);
+      return student;
+    } else {
+      throw new Error('User not found or not a student');
+    }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error('Error during registration');
   }
 };

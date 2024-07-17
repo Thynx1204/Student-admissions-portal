@@ -17,12 +17,12 @@ const User = sequelize.define('User', {
     allowNull: false,
   },
   role: {
-    type: DataTypes.ENUM('student', 'university'),
+    type: DataTypes.ENUM('student', 'admin'),
     allowNull: false,
     defaultValue: 'student'
   },
 });
 
-//User.sync({ alter : true})
+User.sync({ alter : true})
 
 module.exports = User;

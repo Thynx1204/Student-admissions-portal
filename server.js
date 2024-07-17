@@ -3,11 +3,13 @@ require('dotenv').config();
 const dbConnexion = require('./utils/db')
 const authStudentRouter = require('./routes/authStudentRoute');
 const authUniversityRouter = require('./routes/authUniversityRoute');
+const authRouter = require('./routes/authRoute')
 
 const app = express();
 
 app.use(express.json());
 
+app.use('/', authRouter)
 app.use('/student', authStudentRouter)
 app.use('/university', authUniversityRouter)
 

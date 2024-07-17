@@ -9,6 +9,13 @@ const CourseRegistration = require('./Course_Registration');
 const CourseProgram = require('./Course_Progam');
 
 // Relationships
+User.hasOne(Student, { foreignKey: 'user_id' });
+Student.belongsTo(User, { foreignKey: 'user_id' });
+
+User.hasOne(University, { foreignKey: 'user_id' });
+University.belongsTo(User, { foreignKey: 'user_id' });
+
+
 University.hasMany(Course, { foreignKey: 'university_id' });
 Course.belongsTo(University, { foreignKey: 'university_id' });
 
@@ -34,6 +41,7 @@ Program.hasMany(CourseProgram, { foreignKey: 'program_id' });
 CourseProgram.belongsTo(Program, { foreignKey: 'program_id' });
 
 module.exports = {
+  User,
   Student,
   University,
   Admission,

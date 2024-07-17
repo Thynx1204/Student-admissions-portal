@@ -2,8 +2,8 @@ const  {studentRegister, studentLogin, updateStudent, deleteStudent } = require(
 
 const registerStudent = async (req, res) => {
   try {
-    const {last_name, first_name, address, phone_number, sex, nationality, birthdate, email, password} = req.body;
-    const student = await studentRegister({last_name, first_name, address, phone_number, sex, nationality, birthdate, email, password});
+    const {last_name, first_name, address, phone_number, sex, nationality, birthdate, user_id} = req.body;
+    const student = await studentRegister({last_name, first_name, address, phone_number, sex, nationality, birthdate, user_id});
     res.status(201).send(student);
   } catch (error) {
     res.status(400).send(error.message);

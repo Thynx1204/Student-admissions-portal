@@ -2,15 +2,24 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const University = require('../models/University');
+const Student = require('../models/Student');
+
 
 const universityRegister = async (userdata) => {
-  const {name, location, description, logo, phone_number, email, password} = userdata
+  const {name, location, description, logo, phone_number, user_id} = userdata
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const university = await University.create({name, location, description, logo, phone_number, email, password: hashedPassword});
-    return university;
+    const user = await User.findOne({ where: { id : user_id } });
+    console.log(user)
+    
+    if (user && user.dataValues.role === 'admin') {
+      const university = await University.create({name, location, description, logo, phone_number, user_id});
+      console.log(university);
+      return university;
+    } else {
+      throw new Error('User not found or not a admin');
+    }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error('Error during registration');
   }
 };
