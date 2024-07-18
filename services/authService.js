@@ -2,6 +2,8 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Student = require('../models/Student')
+const University = require('../models/University')
+
 
 const register = async (userdata) => {
   const { email, password, role} = userdata
@@ -17,8 +19,8 @@ const register = async (userdata) => {
 
 const login = async ({ email, password }) => {
   try {
-    /* const user = await User.findOne({ where: { email } }); */
-    const user = await User.findOne({ where: { id } });
+    const user = await User.findOne({ where: { email } });
+    /* const user = await User.findOne({ where: { id } }); */
 
     console.log(user.dataValues)
     if (!user || !await bcrypt.compare(password, user.password)) {
@@ -34,12 +36,14 @@ const login = async ({ email, password }) => {
 };
 
 const updateUser = async (id, updateData) => {
+  const { email, password, role} = updateData
   try {
     const user = await User.findByPk(id);
     if (!user) {
       throw new Error('User not found');
     }
-    const updatedUser = await user.update(updateData);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const updatedUser = await user.update({ email, password: hashedPassword, role});
     return updatedUser;
   } catch (error) {
     console.log(error);
@@ -56,6 +60,8 @@ const deleteUser = async (id) => {
 
     // Suppression des enregistrements associés dans la table enfant
     await Student.destroy({ where: { user_id: id } });
+    await University.destroy({ where: { user_id: id } });
+
 
     // Suppression de l'utilisateur
     await user.destroy();

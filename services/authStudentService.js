@@ -53,18 +53,17 @@ const studentLogin = async ({ email, password }) => {
 };
 
 const updateStudent = async (id, updateData) => {
-  const {last_name, first_name, address, phone_number, sex, nationality, birthdate, email, password} = updateData
+  const {last_name, first_name, address, phone_number, sex, nationality, birthdate } = updateData
   try {
     const student = await Student.findByPk(id);
     if (!student) {
       throw new Error('Student not found');
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const updatedStudent = await student.update({ last_name, first_name, address, phone_number, sex, nationality, birthdate, email, password: hashedPassword});
+    const updatedStudent = await student.update({ last_name, first_name, address, phone_number, sex, nationality, birthdate });
     return updatedStudent;
   } catch (error) {
     console.log(error);
-    throw new Error('Error during user update');
+    throw new Error('Error during student update');
   }
 };
 

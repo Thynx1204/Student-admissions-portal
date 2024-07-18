@@ -41,14 +41,13 @@ const universityLogin = async ({ email, password }) => {
 };
 
 const updateUniversity = async (id, updateData) => {
-  const {name, location, description, logo, phone_number, email, password}  = updateData
+  const {name, location, description, logo, phone_number}  = updateData
   try {
     const university = await University.findByPk(id);
     if (!university) {
       throw new Error('University not found');
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const updatedUniversity = await university.update({name, location, description, logo, phone_number, email, password : hashedPassword});
+    const updatedUniversity = await university.update({name, location, description, logo, phone_number});
     return updatedUniversity;
   } catch (error) {
     console.log(error);
